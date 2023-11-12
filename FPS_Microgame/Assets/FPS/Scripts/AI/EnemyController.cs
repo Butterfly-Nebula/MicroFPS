@@ -118,6 +118,8 @@ namespace Unity.FPS.AI
         WeaponController[] m_Weapons;
         NavigationModule m_NavigationModule;
 
+        public int experienceValue = 100;
+
         void Start()
         {
             m_EnemyManager = FindObjectOfType<EnemyManager>();
@@ -370,6 +372,13 @@ namespace Unity.FPS.AI
             if (TryDropItem())
             {
                 Instantiate(LootPrefab, transform.position, Quaternion.identity);
+            }
+
+            // gain exp from enemy 
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                player.SendMessage("GainExperienceFromEnemy", experienceValue);
             }
 
             // this will call the OnDestroy function
