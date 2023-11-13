@@ -118,7 +118,7 @@ namespace Unity.FPS.AI
         WeaponController[] m_Weapons;
         NavigationModule m_NavigationModule;
 
-        public int experienceValue = 100;
+        //public int experienceValue = 80;
 
         void Start()
         {
@@ -376,10 +376,24 @@ namespace Unity.FPS.AI
 
             // gain exp from enemy 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
+            /*
             if (player != null)
             {
-                player.SendMessage("GainExperienceFromEnemy", experienceValue);
-            }
+                ExperienceSystem experienceSystem = player.GetComponent<ExperienceSystem>();
+
+                if (experienceSystem.currentLevel == 1)
+                {
+                    player.SendMessage("GainExperienceFromEnemy", 80);
+                }
+                else if (experienceSystem.currentLevel == 2)
+                {
+                    player.SendMessage("GainExperienceFromEnemy", 50);
+                }
+                else if (experienceSystem.currentLevel == 3)
+                {
+                    player.SendMessage("GainExperienceFromEnemy", 25);
+                }
+            }*/
 
             // this will call the OnDestroy function
             Destroy(gameObject, DeathDuration);
