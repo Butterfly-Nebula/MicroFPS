@@ -373,7 +373,7 @@ namespace Unity.FPS.AI
             {
                 Instantiate(LootPrefab, transform.position, Quaternion.identity);
             }
-
+            
             // gain exp from enemy 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             

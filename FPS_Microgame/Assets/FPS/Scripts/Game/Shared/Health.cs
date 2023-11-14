@@ -23,6 +23,8 @@ namespace Unity.FPS.Game
 
         bool m_IsDead;
 
+        public bool turretDead = false;
+
         void Start()
         {
             CurrentHealth = MaxHealth;
@@ -79,6 +81,10 @@ namespace Unity.FPS.Game
             // call OnDie action
             if (CurrentHealth <= 0f)
             {
+                if (GameObject.FindGameObjectWithTag("EnemyTurret"))
+                {
+                    turretDead = true;
+                }
                 m_IsDead = true;
                 OnDie?.Invoke();
             }

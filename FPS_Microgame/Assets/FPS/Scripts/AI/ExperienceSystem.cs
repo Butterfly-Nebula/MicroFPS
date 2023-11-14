@@ -8,14 +8,34 @@ public class ExperienceSystem : MonoBehaviour
     public int currentLevel = 1;
     public int currentExp = 0;
     public int expToLevelUp = 100;
-    public int expIncreaseFactor = 2;
+    public int expIncreaseRatio = 2;
 
     public Slider expSlider;
     public Text levelText;
 
+    public GameObject player;
+    public GameObject turret;
+
+    public bool leveledUp = false;
+
+    public void Start()
+    {
+        //player = GameObject.FindWithTag("Player");
+        //turret = GameObject.FindWithTag("EnemyTurret");
+    }
+
     public void Update()
     {
         UpdateUI();
+        if(leveledUp)
+        {
+            Debug.Log("Entered");
+            leveledUp = player.GetComponent<Abilities>().UnlockAbility();
+        }
+        /*if (turret.GetComponent<Health>().turretDead == true)
+        {
+            LevelUp();
+        }*/
     }
 
     public void GainExperienceFromEnemy(int amount)
@@ -36,7 +56,8 @@ public class ExperienceSystem : MonoBehaviour
     {
         currentLevel++;
         currentExp -= expToLevelUp;
-        expToLevelUp *= expIncreaseFactor;
+        expToLevelUp *= expIncreaseRatio;
+        leveledUp = true;
     }
 
     private void UpdateUI()
