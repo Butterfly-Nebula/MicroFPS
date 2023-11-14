@@ -376,14 +376,14 @@ namespace Unity.FPS.AI
 
             // gain exp from enemy 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
-            /*
+            
             if (player != null)
             {
                 ExperienceSystem experienceSystem = player.GetComponent<ExperienceSystem>();
 
                 if (experienceSystem.currentLevel == 1)
                 {
-                    player.SendMessage("GainExperienceFromEnemy", 80);
+                    player.SendMessage("GainExperienceFromEnemy", 25);
                 }
                 else if (experienceSystem.currentLevel == 2)
                 {
@@ -391,9 +391,9 @@ namespace Unity.FPS.AI
                 }
                 else if (experienceSystem.currentLevel == 3)
                 {
-                    player.SendMessage("GainExperienceFromEnemy", 25);
+                    player.SendMessage("GainExperienceFromEnemy", 80);
                 }
-            }*/
+            }
 
             // this will call the OnDestroy function
             Destroy(gameObject, DeathDuration);
