@@ -358,7 +358,7 @@ namespace Unity.FPS.AI
                 m_WasDamagedThisFrame = true;
             }
         }
-
+        public bool gainExp = false;
         void OnDie()
         {
             // spawn a particle system when dying
@@ -375,28 +375,11 @@ namespace Unity.FPS.AI
             }
             
             // gain exp from enemy 
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            
-            if (player != null)
-            {
-                ExperienceSystem experienceSystem = player.GetComponent<ExperienceSystem>();
-
-                if (experienceSystem.currentLevel == 1)
-                {
-                    player.SendMessage("GainExperienceFromEnemy", 25);
-                }
-                else if (experienceSystem.currentLevel == 2)
-                {
-                    player.SendMessage("GainExperienceFromEnemy", 50);
-                }
-                else if (experienceSystem.currentLevel == 3)
-                {
-                    player.SendMessage("GainExperienceFromEnemy", 80);
-                }
-            }
+            gainExp = true;
 
             // this will call the OnDestroy function
             Destroy(gameObject, DeathDuration);
+            //gainExp = false;
         }
 
         void OnDrawGizmosSelected()

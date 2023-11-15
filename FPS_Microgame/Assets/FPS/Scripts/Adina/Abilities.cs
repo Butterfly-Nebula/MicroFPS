@@ -34,13 +34,12 @@ public class Abilities : MonoBehaviour
     public Text lockText2;
     public Text lockText3;
 
-    public bool abilityUnlock2 = false;
-    public bool abilityUnlock3 = false;
+    public bool abilityUnlocked2 = false;
+    public bool abilityUnlocked3 = false;
 
     public int seconds;
-    public bool levelUp;
+    public bool levelUp = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         abilityImage1.fillAmount = 0;
@@ -52,8 +51,6 @@ public class Abilities : MonoBehaviour
         lockText2.enabled = false;
         lockText3.enabled = false;
 
-        levelUp = false;
-
         seconds = 3;
     }
 
@@ -64,15 +61,8 @@ public class Abilities : MonoBehaviour
         {
             Ability1Input();
             AbilityCooldown(ref currentAbility1Cooldown, ability1Cooldown, ref isAbility1Cooldown, abilityImage1, abilityText1);
-            if (Input.GetKeyDown(ability2Key))
-            {
-                StartCoroutine(Wait(lockText2, seconds));
-            }
-            if (Input.GetKeyDown(ability3Key))
-            {
-                StartCoroutine(Wait(lockText3, seconds));
-            }
-
+            PauseInBetween(ability2Key, lockText2);
+            PauseInBetween(ability3Key, lockText3);
         }
         else
         {
@@ -80,25 +70,40 @@ public class Abilities : MonoBehaviour
             {
                 Ability1Input();
                 AbilityCooldown(ref currentAbility1Cooldown, ability1Cooldown, ref isAbility1Cooldown, abilityImage1, abilityText1);
-                if (abilityUnlock2 == true)
+
+                Ability2Input();
+                AbilityCooldown(ref currentAbility2Cooldown, ability2Cooldown, ref isAbility2Cooldown, abilityImage2, abilityText2);
+
+                Ability3Input();
+                AbilityCooldown(ref currentAbility3Cooldown, ability3Cooldown, ref isAbility3Cooldown, abilityImage3, abilityText3);
+
+                if (abilityUnlocked2 == true)
+                    PauseInBetween(ability3Key, lockText3);
+                
+                if (abilityUnlocked3 == true)
+                    PauseInBetween(ability2Key, lockText2);
+                
+            } else 
+            {
+                if (this.GetComponent<ExperienceSystem>().currentLevel >= 3)
                 {
+                    Ability1Input();
+                    AbilityCooldown(ref currentAbility1Cooldown, ability1Cooldown, ref isAbility1Cooldown, abilityImage1, abilityText1);
+
                     Ability2Input();
                     AbilityCooldown(ref currentAbility2Cooldown, ability2Cooldown, ref isAbility2Cooldown, abilityImage2, abilityText2);
-                    if (Input.GetKeyDown(ability3Key))
-                    {
-                        StartCoroutine(Wait(lockText3, seconds));
-                    }
-                }
-                if (abilityUnlock3 == true)
-                {
+
                     Ability3Input();
                     AbilityCooldown(ref currentAbility3Cooldown, ability3Cooldown, ref isAbility3Cooldown, abilityImage3, abilityText3);
-                    if (Input.GetKeyDown(ability2Key))
-                    {
-                        StartCoroutine(Wait(lockText2, seconds));
-                    }
                 }
-            }
+        }   }
+    }
+
+    private void PauseInBetween(KeyCode keycode, Text text)
+    {
+         if (Input.GetKeyDown(keycode))
+        {
+            StartCoroutine(Wait(text, seconds));
         }
     }
 
@@ -120,7 +125,7 @@ public class Abilities : MonoBehaviour
 
     private void Ability2Input()
     {
-        if (Input.GetKeyDown(ability2Key) && !isAbility2Cooldown)
+        if (Input.GetKeyDown(ability2Key) && !isAbility2Cooldown && abilityUnlocked2 == true)
         {
             isAbility2Cooldown = true;
             currentAbility2Cooldown = ability2Cooldown;
@@ -129,7 +134,7 @@ public class Abilities : MonoBehaviour
 
     private void Ability3Input()
     {
-        if (Input.GetKeyDown(ability3Key) && !isAbility3Cooldown)
+        if (Input.GetKeyDown(ability3Key) && !isAbility3Cooldown && abilityUnlocked3 == true)
         {
             isAbility3Cooldown = true;
             currentAbility3Cooldown = ability3Cooldown;
@@ -174,18 +179,18 @@ public class Abilities : MonoBehaviour
     {
         if (Input.GetKeyDown(ability2Key))
         {
-            Debug.Log("Key2");
+            //Debug.Log("Key2");
             abilityImage2.fillAmount = 0;
-            abilityUnlock2 = true;
+            abilityUnlocked2 = true;
             return false;
         }
         else if (Input.GetKeyDown(ability3Key))
-        {
-            Debug.Log("Key3");
-            abilityImage3.fillAmount = 0;
-            abilityUnlock3 = true;
-            return false;
-        }
+             {
+                //Debug.Log("Key3");
+                abilityImage3.fillAmount = 0;
+                abilityUnlocked3 = true;
+                return false;
+             }
         return true;
     }
 }
