@@ -8794,12 +8794,15 @@ MonoBehaviour:
   ability3Cooldown: 10
   lockText2: {fileID: 282272124}
   lockText3: {fileID: 47387755}
-  arrowHolderLol: {fileID: 0}
+  arrow2: {fileID: 1653791626}
+  arrow3: {fileID: 2037261877}
   abilityUnlocked2: 0
   abilityUnlocked3: 0
-  seconds: 2
+  seconds: 1
   levelUp: 0
   availableAbilityPoints: 0
+  currentBullet: {fileID: 3659995153115176983, guid: 3c6b27d949cdda749892906e1f1d1b27,
+    type: 3}
 --- !u!114 &2729281214152228948
 MonoBehaviour:
   m_ObjectHideFlags: 0

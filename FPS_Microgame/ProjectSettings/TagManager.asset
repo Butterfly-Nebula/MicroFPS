@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - EnemyTurret
+  - Projectile_Blaster
   layers:
   - Default
   - TransparentFX

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Mono.Cecil;
 using TMPro;
+using Unity.FPS.Gameplay;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -20,13 +22,13 @@ public class Abilities : MonoBehaviour
     public Image abilityImage2;
     public Text abilityText2;
     public KeyCode ability2Key;
-    public float ability2Cooldown = 5;
+    public float ability2Cooldown = 7;
 
     [Header("Ability 3")]
     public Image abilityImage3;
     public Text abilityText3;
     public KeyCode ability3Key;
-    public float ability3Cooldown = 5;
+    public float ability3Cooldown = 10;
 
     private bool isAbility1Cooldown = false;
     private bool isAbility2Cooldown = false;
@@ -50,6 +52,8 @@ public class Abilities : MonoBehaviour
 
     public int availableAbilityPoints = 0;
 
+    public GameObject currentBullet;
+
     void Start()
     {
         abilityImage1.fillAmount = 0;
@@ -61,10 +65,12 @@ public class Abilities : MonoBehaviour
         lockText2.enabled = false;
         lockText3.enabled = false;
 
-        seconds = 3;
+        seconds = 1;
 
         arrow2.SetActive(false); 
         arrow3.SetActive(false); 
+
+        currentBullet.GetComponent<ProjectileStandard>().Damage = 10; // current dmg
     }
 
     void Update()
@@ -117,7 +123,7 @@ public class Abilities : MonoBehaviour
 
     private void PauseInBetween(KeyCode keycode, Text text)
     {
-         if (Input.GetKeyDown(keycode))
+        if (Input.GetKeyDown(keycode))
         {
             StartCoroutine(Wait(text, seconds));
         }
@@ -136,6 +142,7 @@ public class Abilities : MonoBehaviour
         {
             isAbility1Cooldown = true;
             currentAbility1Cooldown = ability1Cooldown;
+            CastAbility1();
         }
     }
 
@@ -160,7 +167,7 @@ public class Abilities : MonoBehaviour
 
     private void AbilityCooldown(ref float currentCooldown, float maxCooldown, ref bool isCooldown, Image skillImage, Text skillText)
     {
-        if (isCooldown)
+        if (isCooldown == true)
         {
             currentCooldown -= Time.deltaTime;
 
@@ -234,5 +241,19 @@ public class Abilities : MonoBehaviour
     {
         availableAbilityPoints++;
         return false;
+    }
+
+    private void CastAbility1()
+    {
+        StartCoroutine(Casting1(seconds));
+    }
+
+    private IEnumerator Casting1(float time)
+    {
+        // cast ability
+        currentBullet.GetComponent<ProjectileStandard>().Damage = 30;
+        yield return new WaitForSeconds(time);
+        // put ability on cooldown ig
+        currentBullet.GetComponent<ProjectileStandard>().Damage = 10;
     }
 }
