@@ -1,8 +1,10 @@
-﻿using Unity.FPS.Game;
+﻿using System.Runtime.CompilerServices;
+using GluonGui.WorkspaceWindow.Views.WorkspaceExplorer.Explorer.Operations;
+using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Unity.FPS.Gameplay
+namespace Unity.FPS.Gameplay 
 {
     [RequireComponent(typeof(CharacterController), typeof(PlayerInputHandler), typeof(AudioSource))]
     public class PlayerCharacterController : MonoBehaviour
@@ -472,6 +474,6 @@ namespace Unity.FPS.Gameplay
 
             IsCrouching = crouched;
             return true;
-        }
-    }
+        } 
+    } 
 }

@@ -371,6 +371,8 @@ GameObject:
   - component: {fileID: 4205022973215787166}
   - component: {fileID: 1272397862697293493}
   - component: {fileID: 1661717823}
+  - component: {fileID: 481578259437216252}
+  - component: {fileID: 3432971801353105261}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -472,6 +474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   CriticalHealthRatio: 0.3
+  turretDead: 0
 --- !u!114 &298744117520805562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,6 +772,64 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &481578259437216252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7253983127304857660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98f0ae37b556ee343b03327b3a6800ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityImage1: {fileID: 0}
+  abilityText1: {fileID: 0}
+  ability1Key: 0
+  ability1Cooldown: 5
+  abilityImage2: {fileID: 0}
+  abilityText2: {fileID: 0}
+  ability2Key: 0
+  ability2Cooldown: 7
+  abilityImage3: {fileID: 0}
+  abilityText3: {fileID: 0}
+  ability3Key: 0
+  ability3Cooldown: 10
+  lockText2: {fileID: 0}
+  lockText3: {fileID: 0}
+  arrow2: {fileID: 0}
+  arrow3: {fileID: 0}
+  abilityUnlocked2: 0
+  abilityUnlocked3: 0
+  levelUp: 0
+  availableAbilityPoints: 0
+  currentBullet: {fileID: 0}
+  shield: {fileID: 0}
+  ShieldActive: 0
+--- !u!114 &3432971801353105261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7253983127304857660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a381821fa4c88c14b820ff68669c3b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: 1
+  currentExp: 0
+  expToLevelUp: 100
+  expIncreaseRatio: 2
+  expSlider: {fileID: 0}
+  levelText: {fileID: 0}
+  player: {fileID: 0}
+  turret: {fileID: 0}
+  availableAbilityPoints: 0
+  enemies: []
+  leveledUp: 0
 --- !u!1 &7383874627095517793
 GameObject:
   m_ObjectHideFlags: 0

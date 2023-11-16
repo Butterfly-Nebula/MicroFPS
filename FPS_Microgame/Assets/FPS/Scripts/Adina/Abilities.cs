@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Mono.Cecil;
 using TMPro;
+using Unity.FPS.Game;
 using Unity.FPS.Gameplay;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,6 +57,10 @@ public class Abilities : MonoBehaviour
 
     public GameObject currentBullet;
 
+    private GameObject player;
+
+    private GameObject hpBar;
+
     void Start()
     {
         abilityImage1.fillAmount = 0;
@@ -71,10 +77,17 @@ public class Abilities : MonoBehaviour
 
         currentBullet.GetComponent<ProjectileStandard>().Damage = 10; // current dmg
         currentBullet.GetComponent<ProjectileStandard>().Speed = 50; // current spf of the projectiles
+
+        player = GameObject.Find("Player");
+
+        hpBar = GameObject.Find("FillImageHealth");
+
+        hpBar.GetComponent<Image>().color = new Color32(249,33,55,255);
     }
 
     void Update()
     {
+        Debug.Log(player.GetComponent<Health>().CurrentHealth);
         if (this.GetComponent<ExperienceSystem>().currentLevel == 1)
         {
             Ability1Input();
@@ -163,6 +176,7 @@ public class Abilities : MonoBehaviour
         {
             isAbility3Cooldown = true;
             currentAbility3Cooldown = ability3Cooldown;
+            CastAbility3();
         }
     }
 
@@ -270,5 +284,26 @@ public class Abilities : MonoBehaviour
         yield return new WaitForSeconds(time);
         // put ability on cooldown 
         currentBullet.GetComponent<ProjectileStandard>(). Speed = 50;
+    }
+
+    private void CastAbility3()
+    {
+        StartCoroutine(Casting3(more_seconds));
+    }
+
+    private IEnumerator Casting3(float time) 
+    {
+        // LULU ULT
+        // cast ability
+        float prevHealth = player.GetComponent<Health>().CurrentHealth;
+        player.GetComponent<Health>().MaxHealth = 200;  
+        player.GetComponent<Health>().CurrentHealth = prevHealth + 100;
+        hpBar.GetComponent<Image>().color = new Color32(246,138,149,255);
+        yield return new WaitForSeconds(time);
+        // put ability on cooldown 
+        player.GetComponent<Health>().MaxHealth = 100;
+        player.GetComponent<Health>().CurrentHealth = prevHealth; 
+        player.GetComponent<Health>().enabled = true;
+        hpBar.GetComponent<Image>().color = new Color32(249,33,55,255);
     }
 }
