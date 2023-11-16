@@ -42,9 +42,10 @@ public class ExperienceSystem : MonoBehaviour
         UpdateUI();
 
         GainExperience();
+
         if(leveledUp)
         {   
-            leveledUp = player.GetComponent<Abilities>().UnlockAbility();
+            leveledUp = player.GetComponent<Abilities>().AbilityAvailable();
         }
     }
     
@@ -80,7 +81,6 @@ public class ExperienceSystem : MonoBehaviour
         currentLevel++;
         currentExp -= expToLevelUp;
         expToLevelUp *= expIncreaseRatio;
-        availableAbilityPoints ++;
         leveledUp = true;
     }
 
@@ -100,13 +100,4 @@ public class ExperienceSystem : MonoBehaviour
         }
     }
 
-    public bool SpendAbilityPoint()
-    {
-        if (availableAbilityPoints > 0)
-        {
-            availableAbilityPoints--;
-            return true;
-        }
-        return false;
-    }
 }

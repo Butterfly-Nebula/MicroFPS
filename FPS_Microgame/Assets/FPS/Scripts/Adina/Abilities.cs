@@ -1,5 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using TMPro;
+using Unity.Mathematics;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,11 +39,16 @@ public class Abilities : MonoBehaviour
     public Text lockText2;
     public Text lockText3;
 
+    public GameObject arrow2;
+    public GameObject arrow3;
+
     public bool abilityUnlocked2 = false;
     public bool abilityUnlocked3 = false;
 
     public int seconds;
     public bool levelUp = false;
+
+    public int availableAbilityPoints = 0;
 
     void Start()
     {
@@ -52,9 +62,11 @@ public class Abilities : MonoBehaviour
         lockText3.enabled = false;
 
         seconds = 3;
+
+        arrow2.SetActive(false); 
+        arrow3.SetActive(false); 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (this.GetComponent<ExperienceSystem>().currentLevel == 1)
@@ -68,6 +80,8 @@ public class Abilities : MonoBehaviour
         {
             if (this.GetComponent<ExperienceSystem>().currentLevel == 2)
             {
+                UnlockAbility(); 
+
                 Ability1Input();
                 AbilityCooldown(ref currentAbility1Cooldown, ability1Cooldown, ref isAbility1Cooldown, abilityImage1, abilityText1);
 
@@ -87,6 +101,8 @@ public class Abilities : MonoBehaviour
             {
                 if (this.GetComponent<ExperienceSystem>().currentLevel >= 3)
                 {
+                    UnlockAbility();
+
                     Ability1Input();
                     AbilityCooldown(ref currentAbility1Cooldown, ability1Cooldown, ref isAbility1Cooldown, abilityImage1, abilityText1);
 
@@ -127,6 +143,7 @@ public class Abilities : MonoBehaviour
     {
         if (Input.GetKeyDown(ability2Key) && !isAbility2Cooldown && abilityUnlocked2 == true)
         {
+            //Debug.Log("Ability 2");
             isAbility2Cooldown = true;
             currentAbility2Cooldown = ability2Cooldown;
         }
@@ -175,22 +192,47 @@ public class Abilities : MonoBehaviour
         }
     }
 
-    public bool UnlockAbility()
+    private void UnlockAbility()
     {
-        if (Input.GetKeyDown(ability2Key))
+        if(availableAbilityPoints > 0 && abilityUnlocked2 == false && abilityUnlocked3 == false)
+        {
+            arrow2.SetActive(true); 
+            arrow3.SetActive(true); 
+        } 
+        else if(availableAbilityPoints > 0 && abilityUnlocked2 == true) 
+        {
+            arrow3.SetActive(true); 
+        } 
+        else if(availableAbilityPoints > 0 && abilityUnlocked3 == true) 
+        {
+            arrow2.SetActive(true); 
+        }
+        
+        //Debug.Log($"Before Unlock - Ability 2: {abilityUnlocked2}, Ability 3: {abilityUnlocked3}");
+        if (Input.GetKeyDown(KeyCode.F2) && abilityUnlocked2 == false && availableAbilityPoints > 0 && this.GetComponent<ExperienceSystem>().currentLevel <=3)
         {
             //Debug.Log("Key2");
             abilityImage2.fillAmount = 0;
-            abilityUnlocked2 = true;
-            return false;
+            abilityUnlocked2 = true; 
+            arrow2.SetActive(false); 
+            arrow3.SetActive(false); 
+            availableAbilityPoints --;
         }
-        else if (Input.GetKeyDown(ability3Key))
+        else if (Input.GetKeyDown(KeyCode.F3) && abilityUnlocked3 == false  && availableAbilityPoints > 0 && this.GetComponent<ExperienceSystem>().currentLevel <=3)
              {
                 //Debug.Log("Key3");
                 abilityImage3.fillAmount = 0;
                 abilityUnlocked3 = true;
-                return false;
+                arrow2.SetActive(false); 
+                arrow3.SetActive(false); 
+                availableAbilityPoints --;
              }
-        return true;
+        //Debug.Log($"After Unlock - Ability 2: {abilityUnlocked2}, Ability 3: {abilityUnlocked3}");
+    }
+
+    public bool AbilityAvailable()
+    {
+        availableAbilityPoints++;
+        return false;
     }
 }
