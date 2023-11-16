@@ -47,7 +47,8 @@ public class Abilities : MonoBehaviour
     public bool abilityUnlocked2 = false;
     public bool abilityUnlocked3 = false;
 
-    public int seconds;
+    private int seconds = 1;
+    private int more_seconds = 2;
     public bool levelUp = false;
 
     public int availableAbilityPoints = 0;
@@ -65,12 +66,11 @@ public class Abilities : MonoBehaviour
         lockText2.enabled = false;
         lockText3.enabled = false;
 
-        seconds = 1;
-
         arrow2.SetActive(false); 
         arrow3.SetActive(false); 
 
         currentBullet.GetComponent<ProjectileStandard>().Damage = 10; // current dmg
+        currentBullet.GetComponent<ProjectileStandard>().Speed = 50; // current spf of the projectiles
     }
 
     void Update()
@@ -153,6 +153,7 @@ public class Abilities : MonoBehaviour
             //Debug.Log("Ability 2");
             isAbility2Cooldown = true;
             currentAbility2Cooldown = ability2Cooldown;
+            CastAbility2();
         }
     }
 
@@ -253,7 +254,21 @@ public class Abilities : MonoBehaviour
         // cast ability
         currentBullet.GetComponent<ProjectileStandard>().Damage = 30;
         yield return new WaitForSeconds(time);
-        // put ability on cooldown ig
+        // put ability on cooldown
         currentBullet.GetComponent<ProjectileStandard>().Damage = 10;
+    }
+
+    private void CastAbility2()
+    {
+        StartCoroutine(Casting2(more_seconds));
+    }
+
+    private IEnumerator Casting2(float time)
+    {
+        // cast ability
+        currentBullet.GetComponent<ProjectileStandard>(). Speed = 500;
+        yield return new WaitForSeconds(time);
+        // put ability on cooldown 
+        currentBullet.GetComponent<ProjectileStandard>(). Speed = 50;
     }
 }
