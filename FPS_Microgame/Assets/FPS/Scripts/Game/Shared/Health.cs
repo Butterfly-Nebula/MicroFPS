@@ -24,7 +24,7 @@ namespace Unity.FPS.Game
 
         bool m_IsDead;
 
-        public bool turretDead = false;
+        //public bool turretDead = false;
 
         void Start()
         {
@@ -82,10 +82,13 @@ namespace Unity.FPS.Game
             // call OnDie action
             if (CurrentHealth <= 0f)
             {
+                /*
                 if (GameObject.FindGameObjectWithTag("EnemyTurret"))
                 {
                     turretDead = true;
+                    Debug.Log("Turret Dead");
                 }
+                */
                 m_IsDead = true;
                 OnDie?.Invoke();
             }
