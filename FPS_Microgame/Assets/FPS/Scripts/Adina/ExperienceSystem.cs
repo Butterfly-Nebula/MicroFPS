@@ -4,6 +4,7 @@ using Unity.FPS.AI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace Unity.FPS.Game
 {
@@ -26,7 +27,9 @@ namespace Unity.FPS.Game
 
         public bool leveledUp = false;
 
-        //private bool dead = false;
+        private bool dead = false;
+
+        //private GameObject turret;
 
         public void Start()
         {
@@ -38,6 +41,7 @@ namespace Unity.FPS.Game
                     enemyControllers.Add(enemyController);
                 }
             }
+            //turret = enemies.Where(obj => obj.name == "Enemy_Turret").SingleOrDefault();
         }
 
         public void Update()
@@ -68,18 +72,45 @@ namespace Unity.FPS.Game
             {
                 if (currentLevel == 1 && enemyC.gainExp == true)
                 {
-                    currentExp += 25;
-                    enemyC.gainExp = false;
+                    if (enemyC == enemyControllers.Last() && !dead)
+                    {
+                        LevelUp();
+                        dead = true;
+                    } else
+                    {
+                        currentExp += 25;
+                        enemyC.gainExp = false;
+                    }
                 }
                 else if (currentLevel == 2 && enemyC.gainExp == true)
-                {
-                    currentExp += 50;
-                    enemyC.gainExp = false;
+                     {
+                    if (enemyC == enemyControllers.Last() && !dead)
+                    {
+                        LevelUp();
+                        dead = true;
+                    } else
+                    {
+                        currentExp += 50;
+                        enemyC.gainExp = false;
+                    }
                 }
                 else if (currentLevel == 3 && enemyC.gainExp == true)
                 {
-                    currentExp += 80;
-                    enemyC.gainExp = false;
+                    if (enemyC == enemyControllers.Last() && !dead)
+                    {
+                        LevelUp();
+                        dead = true;
+                    }
+                    else
+                    {
+                        currentExp += 80;
+                        enemyC.gainExp = false;
+                    }
+                }
+                else if (enemyC == enemyControllers.Last() && !dead && enemyC.gainExp == true)
+                {
+                    LevelUp();
+                    dead = true;
                 }
             }
 
